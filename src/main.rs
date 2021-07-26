@@ -15,25 +15,22 @@ enum Command {
     Server(String, u16)
 }
 
-fn parse_command_line(args: Vec<String>) -> Command {
+fn parse_command_line(mut args: Vec<String>) -> Command {
     if 0 == args.len() {
         panic!("Too few command line arguments provided.");
     }
-    let (host, port) = parse_host_and_port(
-        if args.len() > 1 { &args[1] } else { &args[0] });
-    if args[0] == "-l" {
-        Command::Server(host, port)
-    }
-    else {
-        Command::Client(host, port)
+    let last = args.pop().unwrap();
+    let (host, port) = parse_host_and_port(last);
+    match args.pop().as_deref() {
+        Some("-l") => Command::Server(host, port),
+        _ => Command::Client(host, port)
     }
 }
 
-fn parse_host_and_port(arg: &String) -> (String, u16) {
-    let split: Vec<&str> = arg.split(':').collect();
-    let first = split.first().unwrap();
-    let port = if split.len() > 1
-        { split.last().unwrap().parse::<u16>().unwrap() }
-        else { DEFAULT_PORT };
-    (first.to_string(), port)
+fn parse_host_and_port(arg: String) -> (String, u16) {
+    match arg.find(':') {
+        Some(index) =>
+            (arg[..index].to_string(), arg[(index + 1)..].parse::<u16>().unwrap()),
+        None => (arg, DEFAULT_PORT)
+    }
 }
