@@ -10,6 +10,7 @@ fn main() {
     }
 }
 
+#[derive(Debug)]
 enum Command {
     Client(String, u16),
     Server(String, u16)
@@ -32,5 +33,47 @@ fn parse_host_and_port(arg: String) -> (String, u16) {
         Some(index) =>
             (arg[..index].to_string(), arg[(index + 1)..].parse::<u16>().unwrap()),
         None => (arg, DEFAULT_PORT)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_parse_command_line_server() {
+        let args = vec!["-l".to_string(), "localhost:1337".to_string()];
+
+        match super::parse_command_line(args) {
+            super::Command::Server(host, port) => {
+                assert_eq!("localhost", host);
+                assert_eq!(1337, port);
+            },
+            _ => panic!("parse_command_line has a bug!")
+        }
+    }
+
+    #[test]
+    fn test_parse_command_line_client() {
+        let args = vec!["carrfound.org:4221".to_string()];
+
+        match super::parse_command_line(args) {
+            super::Command::Client(host, port) => {
+                assert_eq!("carrfound.org", host);
+                assert_eq!(4221, port);
+            },
+            _ => panic!("parse_command_line has a bug!")
+        }
+    }
+
+    #[test]
+    fn test_parse_command_line_server_default_port() {
+        let args = vec!["-l".to_string(), "localhost".to_string()];
+
+        match super::parse_command_line(args) {
+            super::Command::Server(host, port) => {
+                assert_eq!("localhost", host);
+                assert_eq!(super::DEFAULT_PORT, port);
+            },
+            _ => panic!("parse_command_line has a bug!")
+        }
     }
 }
