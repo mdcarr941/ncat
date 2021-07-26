@@ -1,3 +1,5 @@
+/* Copyright (c) 2021 Matthew Carr. Licensed under the GNU GPL version 3. */
+
 use std::env;
 use std::io;
 use std::io::Result;
