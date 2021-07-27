@@ -1,5 +1,5 @@
 [package]
-name = "ncat"
+name = "tcat"
 version = "0.1.0"
 authors = ["Matthew Carr <mdcarr941@gmail.com>"]
 edition = "2018"
