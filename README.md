@@ -25,12 +25,12 @@ it reads to the server.
 If no port is specified then the default port, 41270, is used.
 
 ### Contrived Example
-Suppose you wanted to transfer a file called `rick.and.morty.s05e05.1080p.webrip.x264-cakes[eztv.re].mkv`
+Suppose you wanted to transfer a file called `video.mkv`
 from you server to your home theater PC (HTPC). You could use scp, nfs, cifs, Dropbox, Google Drive,
 OneDrive, a USB drive, OR tcat. Assuming the hostname of the HTPC on your LAN is `entertaintment.lan`
-you'd start tcat on that machine in server mode by running `tcat -l entertaintment.lan > s05e05.mkv`, this
+you'd start tcat on that machine in server mode by running `tcat -l entertaintment.lan > video.mkv`, this
 will cause it to listen on whatever IP address it was assigned. Then, from your server you'd run:
 ```
-tcat entertaintment.lan < rick.and.morty.s05e05.1080p.webrip.x264-cakes[eztv.re].mkv
+tcat entertaintment.lan < video.mkv
 ```
 This will transfer the file without all the overhead of those other tools!
